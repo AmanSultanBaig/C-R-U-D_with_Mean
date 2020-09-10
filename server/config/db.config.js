@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost:27017/TodoDB', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/TodoDB', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(success => console.log("Connection Established"))
     .catch(failure => console.log("Error occured while connceting mongoDB " + failure))
 
