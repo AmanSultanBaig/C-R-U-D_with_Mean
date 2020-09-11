@@ -1,4 +1,5 @@
 const todoSchema = require('../models/todoModel')
+const mongoose = require('mongoose')
 
 exports.get_TodoData = (req, res) => {
     todoSchema.find({})
@@ -34,7 +35,21 @@ exports.post_TodoData = (req, res) => {
 }
 
 exports.get_TodoDataById = (req, res) => {
-    res.send("Getting Todos Data by id")
+    const TodoId = new mongoose.Types.ObjectId(req.params.Todo_id)
+    todoSchema.findById({ _id: TodoId })
+        .then(oneTodo => {
+            if (oneTodo.id) {
+                res.status(200).json({
+                    message: "One Todo Found",
+                    data: oneTodo
+                })
+            } else if (!oneTodo) {
+                res.status(404).json({
+                    message: "Todo not found by given ID"
+                })
+            }
+        })
+        .catch(err => console.log(err))
 }
 
 exports.update_TodoData = (req, res) => {
