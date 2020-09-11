@@ -14,7 +14,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 router.get('/api/getTodos', TodoController.get_TodoData)
 router.post('/api/postTodo', jsonParser, TodoController.post_TodoData)
 router.get('/api/getTodoById/:Todo_id', TodoController.get_TodoDataById)
-router.put('/api/updateTodo/:Todo_id', TodoController.update_TodoData)
+router.put('/api/updateTodo/:Todo_id', jsonParser, TodoController.update_TodoData)
 router.delete('/api/deleteTodo/:Todo_id', TodoController.delete_TodoData)
 
 module.exports = router

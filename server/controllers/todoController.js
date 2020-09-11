@@ -62,7 +62,33 @@ exports.get_TodoDataById = (req, res) => {
 }
 
 exports.update_TodoData = (req, res) => {
-    res.send("updating Todos Data")
+    const TodoId = new mongoose.Types.ObjectId(req.params.Todo_id)
+    let updateTodo = {
+        Name: req.body.Name,
+        Email: req.body.Email,
+        Phone: req.body.Phone,
+    }
+
+    todoSchema.findOneAndUpdate({ _id: TodoId }, updateTodo, { new: true })
+        .then(updateTodo => {
+            if (updateTodo) {
+                res.status(200).send({
+                    message: "Todo Updated Successfully",
+                    updatedTodo: updateTodo
+                });
+            } else if (!updateTodo) {
+                res.status(404).json({
+                    message: "Todo not found by given ID"
+                })
+            }
+        })
+        .catch(err => {
+            if (err) {
+                res.status(404).json({
+                    message: err.message
+                })
+            }
+        })
 }
 
 // delete todo by todo id
