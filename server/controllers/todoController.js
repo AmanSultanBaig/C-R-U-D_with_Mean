@@ -1,6 +1,7 @@
 const todoSchema = require('../models/todoModel')
 const mongoose = require('mongoose')
 
+// get all Todos 
 exports.get_TodoData = (req, res) => {
     todoSchema.find({})
         .then(todo => {
@@ -18,6 +19,7 @@ exports.get_TodoData = (req, res) => {
         .catch(err => console.log(err))
 }
 
+// add todo with validate email and phone
 exports.post_TodoData = (req, res) => {
     const Todo = new todoSchema({
         Name: req.body.Name,
@@ -34,6 +36,7 @@ exports.post_TodoData = (req, res) => {
         .catch(err => console.log(err))
 }
 
+// get one todo by todo id
 exports.get_TodoDataById = (req, res) => {
     const TodoId = new mongoose.Types.ObjectId(req.params.Todo_id)
     todoSchema.findById({ _id: TodoId })
@@ -49,13 +52,39 @@ exports.get_TodoDataById = (req, res) => {
                 })
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            if (err) {
+                res.status(404).json({
+                    message: err.message
+                })
+            }
+        })
 }
 
 exports.update_TodoData = (req, res) => {
     res.send("updating Todos Data")
 }
 
+// delete todo by todo id
 exports.delete_TodoData = (req, res) => {
-    res.send("deleting Todos Data")
+    todoSchema.findOneAndDelete({ _id: new mongoose.Types.ObjectId(req.params.Todo_id) })
+        .then(deleteTodo => {
+            if (deleteTodo.id) {
+                res.status(200).json({
+                    message: "Todo Deleted Successfully",
+                    deletedTodo: deleteTodo
+                })
+            } else if (!deleteTodo) {
+                res.status(404).json({
+                    message: "Todo not found by given ID"
+                })
+            }
+        })
+        .catch(err => {
+            if (err) {
+                res.status(404).json({
+                    message: err.message
+                })
+            }
+        })
 }
