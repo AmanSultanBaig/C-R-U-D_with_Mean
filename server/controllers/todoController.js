@@ -21,35 +21,46 @@ exports.get_TodoData = (req, res) => {
 
 // add todo with validate email and phone
 exports.post_TodoData = (req, res) => {
-    todoSchema.findOne({ Email: req.body.Email }).then(exist => {
-        if (!exist) {
-            todoSchema.findOne({ Phone: req.body.Phone }).then(item => {
-                if (!item) {
-                    const Todo = new todoSchema({
-                        Name: req.body.Name,
-                        Email: req.body.Email,
-                        Phone: req.body.Phone,
-                    })
-                    Todo.save()
-                        .then(data => {
-                            res.status(200).json({
-                                message: "Todo Added Successfully!",
-                                payload: data
-                            })
-                        })
-                } else {
-                    res.status(401).json({
-                        message: "Phone Already Exists"
-                    })
-                }
-            })
-        } else {
-            res.status(401).json({
-                message: "Email Already Exists"
-            })
-        }
+    // todoSchema.findOne({ Email: req.body.Email }).then(exist => {
+    //     if (!exist) {
+    //         todoSchema.findOne({ Phone: req.body.Phone }).then(item => {
+    //             if (!item) {
+    const Todo = new todoSchema({
+        Name: req.body.Name,
+        Email: req.body.Email,
+        Phone: req.body.Phone,
     })
-        .catch(err => console.log(err))
+    Todo.save()
+        .then(data => {
+            res.status(200).json({
+                message: "Todo Added Successfully!",
+                payload: data
+            })
+        })
+        //         } else {
+        //             res.status(401).json({
+        //                 message: "Phone Already Exists"
+        //             })
+        //         }
+        //     })
+        // } else {
+        //     res.status(401).json({
+        //         message: "Email Already Exists"
+        //     })
+        // }
+        // })
+        .catch(err => {
+            if (err.keyValue.Email) {
+                res.status(401).json({
+                    message: "Email Already Exists"
+                })
+            } else if (err.keyValue.Phone) {
+                res.status(401).json({
+                    message: "Phone Already Exists"
+                })
+
+            }
+        })
 }
 
 // get one todo by todo id

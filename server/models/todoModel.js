@@ -21,4 +21,10 @@ const TodoSchema = mongoose.Schema({
     }
 )
 
+// validating Email logic
+TodoSchema.path('Email').validate(async (email) => {
+    const uniqueEmail = await mongoose.models.TodoModel.countDocuments({ email });
+    return !uniqueEmail
+}, "Email Already Exist")
+
 module.exports = mongoose.model('TodoModel', TodoSchema, 'TodoCollection')
