@@ -1,5 +1,6 @@
 const todoSchema = require('../models/todoModel')
 const mongoose = require('mongoose')
+const Node_Mailer = require('../Node_Mailer')
 
 // get all Todos 
 exports.get_TodoData = (req, res) => {
@@ -36,6 +37,7 @@ exports.post_TodoData = (req, res) => {
                 message: "Todo Added Successfully!",
                 payload: data
             })
+            Node_Mailer.Node_Mail(req.body.Email)
         })
         //         } else {
         //             res.status(401).json({
