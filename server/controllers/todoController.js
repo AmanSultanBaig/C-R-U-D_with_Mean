@@ -21,18 +21,34 @@ exports.get_TodoData = (req, res) => {
 
 // add todo with validate email and phone
 exports.post_TodoData = (req, res) => {
-    const Todo = new todoSchema({
-        Name: req.body.Name,
-        Email: req.body.Email,
-        Phone: req.body.Phone,
-    })
-    Todo.save()
-        .then(data => {
-            res.status(200).json({
-                message: "Todo Added Successfully!",
-                payload: data
+    todoSchema.findOne({ Email: req.body.Email }).then(exist => {
+        if (!exist) {
+            todoSchema.findOne({ Phone: req.body.Phone }).then(item => {
+                if (!item) {
+                    const Todo = new todoSchema({
+                        Name: req.body.Name,
+                        Email: req.body.Email,
+                        Phone: req.body.Phone,
+                    })
+                    Todo.save()
+                        .then(data => {
+                            res.status(200).json({
+                                message: "Todo Added Successfully!",
+                                payload: data
+                            })
+                        })
+                } else {
+                    res.status(401).json({
+                        message: "Phone Already Exists"
+                    })
+                }
             })
-        })
+        } else {
+            res.status(401).json({
+                message: "Email Already Exists"
+            })
+        }
+    })
         .catch(err => console.log(err))
 }
 
@@ -68,27 +84,31 @@ exports.update_TodoData = (req, res) => {
         Email: req.body.Email,
         Phone: req.body.Phone,
     }
+    todoSchema.findOne({ Email: updateTodo.Email, Phone: updateTodo.Phone }).then(result => {
+        if (result) {
+            todoSchema.findOneAndUpdate({ _id: TodoId }, updateTodo, { new: true })
+                .then(updateTodo => {
+                    if (updateTodo) {
+                        res.status(200).send({
+                            message: "Todo Updated Successfully",
+                            updatedTodo: updateTodo
+                        });
+                    } else if (!updateTodo) {
+                        res.status(404).json({
+                            message: "Todo not found by given ID"
+                        })
+                    }
+                })
+                .catch(err => {
+                    if (err) {
+                        res.status(404).json({
+                            message: err.message
+                        })
+                    }
+                })
+        }
+    })
 
-    todoSchema.findOneAndUpdate({ _id: TodoId }, updateTodo, { new: true })
-        .then(updateTodo => {
-            if (updateTodo) {
-                res.status(200).send({
-                    message: "Todo Updated Successfully",
-                    updatedTodo: updateTodo
-                });
-            } else if (!updateTodo) {
-                res.status(404).json({
-                    message: "Todo not found by given ID"
-                })
-            }
-        })
-        .catch(err => {
-            if (err) {
-                res.status(404).json({
-                    message: err.message
-                })
-            }
-        })
 }
 
 // delete todo by todo id
