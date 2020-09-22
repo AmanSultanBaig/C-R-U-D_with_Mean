@@ -37,7 +37,7 @@ exports.post_TodoData = (req, res) => {
                 message: "Todo Added Successfully!",
                 payload: data
             })
-            Node_Mailer.Node_Mail(req.body.Email)
+            // Node_Mailer.Node_Mail(req.body.Email)
         })
         //         } else {
         //             res.status(401).json({
