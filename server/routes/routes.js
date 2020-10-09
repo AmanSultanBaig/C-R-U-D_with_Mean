@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const TodoController = require('./controllers/todoController')
+const TodoController = require('../controllers/todoController')
 
 const bodyParser = require('body-parser')
 

@@ -3,23 +3,20 @@ require('dotenv').config()
 
 exports.Node_Mail = (email) => {
 
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
-            type: 'OAuth2',
-            user: process.env.EMAIL, // TODO: your gmail account
-            pass: process.env.PASSWORD // TODO: your gmail password
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
         }
-    });
+    })
 
     // Step 2
-    let mailOptions = {
-        from: email, // TODO: email sender
-        to: 'cba@gmail.com', // TODO: email receiver
-        subject: 'Nodemailer - Test',
-        text: 'Wooohooo it works!!'
+    const mailOptions = {
+        from: process.env.EMAIL, // sender address
+        to: email, // list of receivers
+        subject: 'Registration Email', // Subject line
+        html: 'Congratulation! You have registered yourself with us.'// plain text body
     };
 
     // Step 3

@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('./config/db.config')
 
-app.use('/', require('./routes'))
+app.use('/', require('./routes/routes'))
 app.use(express.json())
 
 // error handling middleware
