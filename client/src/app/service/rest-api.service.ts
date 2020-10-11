@@ -53,6 +53,15 @@ export class RestApiService {
       )
   }
 
+  // delete todo
+  deleteTodo(todoId): Observable<Todo> {
+    return this.httpClient.delete(`${this.baseURL}/deleteTodo/${todoId}`)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
   // Error handling 
   handleError(error) {
     let errorMessage = '';
