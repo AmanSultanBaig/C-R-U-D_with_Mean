@@ -4,7 +4,7 @@
             <i nz-icon [nzType]="'plus'"></i>
             Add Todo</button>
         <div class="row">
-            <div class="col-md-4" *ngFor="let todo of getAllTodos">
+            <div class="col-md-4 card-todo" *ngFor="let todo of getAllTodos">
                 <nz-card class="mb-3" [nzBordered]="true" nzTitle="{{todo.Name}}">
                     <p>Email: {{todo.Email}} </p>
                     <p>Phone: {{todo.Phone}} </p>
@@ -16,7 +16,6 @@
                         <button class="mb-3" nz-button nzType="dashed" nzDanger>
                             <i nz-icon [nzType]="'delete'"></i>
                             Delete Todo</button>
-
                     </div>
                 </nz-card>
             </div>
