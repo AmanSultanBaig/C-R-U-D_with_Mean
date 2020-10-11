@@ -35,6 +35,15 @@ export class RestApiService {
       )
   }
 
+  // update todo
+  editTodo(body, todoId): Observable<Todo> {
+    return this.httpClient.put(`${this.baseURL}/updateTodo/${todoId}`, body)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
   // Error handling 
   handleError(error) {
     let errorMessage = '';
