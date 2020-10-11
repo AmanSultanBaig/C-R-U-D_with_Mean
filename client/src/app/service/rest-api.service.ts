@@ -26,6 +26,14 @@ export class RestApiService {
       )
   }
 
+  // create todo 
+  addTodo(todo): Observable<Todo> {
+    return this.httpClient.post(`${this.baseURL}/addTodo`, todo)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
 
   // Error handling 
   handleError(error) {
