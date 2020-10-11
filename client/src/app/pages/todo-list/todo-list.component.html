@@ -5,22 +5,37 @@
             Add Todo</button>
         <div class="row">
             <div class="col-md-4 card-todo" *ngFor="let todo of getAllTodos">
-                <nz-card class="mb-3" [nzBordered]="true" nzTitle="{{todo.Name}}">
+                <nz-card class="mb-3" [nzBordered]="true" nzTitle="{{todo.Name | titlecase}}">
                     <p>Email: {{todo.Email}} </p>
                     <p>Phone: {{todo.Phone}} </p>
 
                     <div class="float-right">
+                        <button class="mb-3 mr-2" nz-button nzType="dashed" (click)="showModal(todo._id)">
+                            <i nz-icon [nzType]="'eye'"></i>
+                            <span>View</span>
+                        </button>
                         <button class="mb-3 mr-2" nz-button nzType="dashed">
                             <i nz-icon [nzType]="'edit'"></i>
-                            Edit Todo</button>
+                            Edit</button>
                         <button class="mb-3" nz-button nzType="dashed" nzDanger>
                             <i nz-icon [nzType]="'delete'"></i>
-                            Delete Todo</button>
+                            Delete</button>
                     </div>
                 </nz-card>
             </div>
         </div>
     </div>
+
+    <nz-modal [(nzVisible)]="isVisible" nzTitle="Name: {{oneTodo?.Name | titlecase}}" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+        <span>
+            <b>Email: </b>
+            <p>{{oneTodo?.Email}}</p>
+
+            <b>Phone: </b>
+            <p>{{oneTodo?.Phone}}</p>
+        </span>
+    </nz-modal>
+
     <!-- <div style="padding:30px;" class="container">
         <nz-card style="width:100%;" [nzBordered]="false" nzTitle="Card title">
             <p>Card content</p>

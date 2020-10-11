@@ -7,8 +7,13 @@ import { RestApiService } from 'src/app/service/rest-api.service';
 })
 
 export class TodoListComponent implements OnInit {
-  constructor(private _api: RestApiService) { }
+  isVisible = false;
+  isOkLoading = false;
+  oneTodo;
   getAllTodos;
+
+
+  constructor(private _api: RestApiService) { }
 
   ngOnInit(): void {
     this.getTodos()
@@ -18,8 +23,28 @@ export class TodoListComponent implements OnInit {
     this._api.getAllTodos().subscribe(todo => {
       this.getAllTodos = todo;
       this.getAllTodos = this.getAllTodos.data;
-      console.log(this.getAllTodos)
     })
+  }
+
+
+  showModal(todoId) {
+    this._api.getTodoById(todoId).subscribe(todo => {
+      this.oneTodo = todo;
+      this.oneTodo = this.oneTodo.data;
+      this.isVisible = true;
+    })
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
   }
 
 }

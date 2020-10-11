@@ -22,7 +22,7 @@ exports.Node_Mail = (email) => {
     // Step 3
     transporter.sendMail(mailOptions, (err, data) => {
         if (err) {
-            return console.log('Error occurs');
+            return console.log('Error occurs ', err);
         }
         return console.log('Email sent!!!');
     });
