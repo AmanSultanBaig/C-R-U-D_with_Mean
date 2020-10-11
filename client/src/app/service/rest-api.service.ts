@@ -26,6 +26,15 @@ export class RestApiService {
       )
   }
 
+  // get todo by todoId
+  getTodoById(todoId): Observable<Todo> {
+    return this.httpClient.get(`${this.baseURL}/getTodoById/${todoId}`)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
   // create todo 
   addTodo(todo): Observable<Todo> {
     return this.httpClient.post(`${this.baseURL}/addTodo`, todo)
