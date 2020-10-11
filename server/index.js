@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 require('./config/db.config')
 
-app.use('/', require('./routes/routes'))
+app.use(cors())
 app.use(express.json())
+app.use('/', require('./routes/routes'))
+
 
 // error handling middleware
 app.use((req, res, next) => {
@@ -20,4 +23,4 @@ app.use((error, req, res, next) => {
 })
 
 let portNo = 2000 || process.env.PORT;
-app.listen(portNo, __ => console.log("App is Running!"))
+app.listen(portNo, __ => console.log(`App is Running on Port ${portNo}`))
