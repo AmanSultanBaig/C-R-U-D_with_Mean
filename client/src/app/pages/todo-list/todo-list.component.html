@@ -2,10 +2,10 @@
     <div style="padding:30px;" class="container">
         <button class="mb-3" nzSize="large" nz-button nzType="dashed">
             <i nz-icon [nzType]="'plus'"></i>
-            Add Todo</button>
+            Add</button>
         <div class="row">
             <div class="col-md-4 card-todo" *ngFor="let todo of getAllTodos">
-                <nz-card class="mb-3" [nzBordered]="true" nzTitle="{{todo.Name | titlecase}}">
+                <nz-card class="mb-5" [nzBordered]="true" nzTitle="{{todo.Name | titlecase}}">
                     <p>Email: {{todo.Email}} </p>
                     <p>Phone: {{todo.Phone}} </p>
 
@@ -17,7 +17,7 @@
                         <button class="mb-3 mr-2" nz-button nzType="dashed">
                             <i nz-icon [nzType]="'edit'"></i>
                             Edit</button>
-                        <button class="mb-3" nz-button nzType="dashed" nzDanger>
+                        <button class="mb-3" nz-button nzType="dashed" (click)="deleteConfirm(todo._id)" nzDanger>
                             <i nz-icon [nzType]="'delete'"></i>
                             Delete</button>
                     </div>
@@ -26,7 +26,8 @@
         </div>
     </div>
 
-    <nz-modal [(nzVisible)]="isVisible" nzTitle="Name: {{oneTodo?.Name | titlecase}}" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <nz-modal [(nzVisible)]="isVisible" nzTitle="Name: {{oneTodo?.Name | titlecase}}" (nzOnCancel)="handleCancel()"
+        (nzOnOk)="handleOk()">
         <span>
             <b>Email: </b>
             <p>{{oneTodo?.Email}}</p>
