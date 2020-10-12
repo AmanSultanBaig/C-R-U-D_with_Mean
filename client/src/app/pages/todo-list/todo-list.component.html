@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div style="padding:30px;" class="container">
-        <button class="mb-3" nzSize="large" nz-button nzType="dashed">
+        <button class="mb-3" nzSize="large" (click)="showModal(null, 'add-state')" nz-button nzType="dashed">
             <i nz-icon [nzType]="'plus'"></i>
             Add</button>
         <div class="row">
@@ -26,6 +26,7 @@
         </div>
     </div>
 
+    <!-- view modal -->
     <nz-modal [(nzVisible)]="isVisible" nzTitle="Name: {{oneTodo?.Name}}" (nzOnCancel)="handleCancel('view-cancel')"
         (nzOnOk)="handleOk('view-ok')">
         <span>
@@ -37,7 +38,8 @@
         </span>
     </nz-modal>
 
-    <nz-modal [(nzVisible)]="isVisible2" nzTitle="Edit" (nzOnCancel)="handleCancel('edit-cancel')"
+    <!-- edit Modal -->
+    <nz-modal [(nzVisible)]="editVisible" nzTitle="Edit" (nzOnCancel)="handleCancel('edit-cancel')"
         (nzOnOk)="handleOk('edit-ok')">
 
         <form nz-form>
@@ -66,11 +68,31 @@
 
     </nz-modal>
 
-    <!-- <div style="padding:30px;" class="container">
-        <nz-card style="width:100%;" [nzBordered]="false" nzTitle="Card title">
-            <p>Card content</p>
-            <p>Card content</p>
-            <p>Card content</p>
-        </nz-card>
-    </div> -->
+    <!-- add Modal -->
+    <nz-modal [(nzVisible)]="addVisible" nzTitle="Add" (nzOnCancel)="handleCancel('add-cancel')"
+        (nzOnOk)="handleOk('add-ok')">
+
+        <form nz-form>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="name">Name</nz-form-label>
+                <nz-form-control [nzSpan]="14">
+                    <input nz-input name="name" [(ngModel)]="add_name" type="text" placeholder="Enter Name">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="email">E-mail</nz-form-label>
+                <nz-form-control [nzSpan]="14">
+                    <input nz-input name="email" [(ngModel)]="add_email" type="email" placeholder="Your Email">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="number">Phone</nz-form-label>
+                <nz-form-control [nzSpan]="14">
+                    <input nz-input name="phone" [(ngModel)]="add_phone" type="number" placeholder="Your Phone">
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+
+    </nz-modal>
+
 </div>
