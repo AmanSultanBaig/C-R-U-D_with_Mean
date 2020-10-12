@@ -37,7 +37,7 @@ export class RestApiService {
 
   // create todo 
   addTodo(todo): Observable<Todo> {
-    return this.httpClient.post(`${this.baseURL}/addTodo`, todo)
+    return this.httpClient.post(`${this.baseURL}/postTodo`, todo)
       .pipe(
         retry(1),
         catchError(this.handleError)
@@ -70,9 +70,9 @@ export class RestApiService {
       errorMessage = error.error.message;
     } else {
       // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = error;
     }
-    window.alert(errorMessage);
+    // window.alert(errorMessage);
     return throwError(errorMessage);
   }
 
