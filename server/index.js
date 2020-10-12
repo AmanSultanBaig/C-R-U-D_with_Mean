@@ -22,5 +22,5 @@ app.use((error, req, res, next) => {
     })
 })
 
-let portNo = 2000 || process.env.PORT;
+let portNo = 3000 || process.env.PORT;
 app.listen(portNo, __ => console.log(`App is Running on Port ${portNo}`))

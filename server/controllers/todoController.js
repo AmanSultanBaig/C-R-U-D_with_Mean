@@ -39,18 +39,6 @@ exports.post_TodoData = (req, res) => {
             })
             Node_Mailer.Node_Mail(req.body.Email)
         })
-        //         } else {
-        //             res.status(401).json({
-        //                 message: "Phone Already Exists"
-        //             })
-        //         }
-        //     })
-        // } else {
-        //     res.status(401).json({
-        //         message: "Email Already Exists"
-        //     })
-        // }
-        // })
         .catch(err => {
             if (err.keyValue.Email) {
                 res.status(401).json({
@@ -60,7 +48,6 @@ exports.post_TodoData = (req, res) => {
                 res.status(401).json({
                     message: "Phone Already Exists"
                 })
-
             }
         })
 }
