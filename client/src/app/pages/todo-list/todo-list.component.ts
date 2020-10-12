@@ -11,11 +11,15 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 export class TodoListComponent implements OnInit {
   isVisible = false;
+  isVisible2 = false;
   isOkLoading = false;
   oneTodo;
   getAllTodos;
   confirmModal?: NzModalRef; // For testing by now
-
+  UpdateName = ''
+  UpdateEmail = ''
+  UpdatePhone = ''
+  copyId = ''
 
   constructor(private _api: RestApiService, private modal: NzModalService, private message: NzMessageService) { }
 
@@ -32,24 +36,42 @@ export class TodoListComponent implements OnInit {
   }
 
   // view todo modal
-  showModal(todoId) {
+  showModal(todoId, flag) {
+    this.copyId = todoId;
     this._api.getTodoById(todoId).subscribe(todo => {
       this.oneTodo = todo;
       this.oneTodo = this.oneTodo.data;
-      this.isVisible = true;
+      if (flag === 'view-state') {
+        this.isVisible = true
+      } else if (flag === 'edit-state') {
+        this.isVisible2 = true
+      }
     })
   }
 
-  handleOk(): void {
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
+  handleOk(flag): void {
+    if (flag == 'view-ok') {
+      this.isVisible = false
+    } else if (flag == 'edit-ok') {
+      let body = {
+        Name: this.UpdateName,
+        Email: this.UpdateEmail,
+        Phone: this.UpdatePhone,
+      }
+      this._api.editTodo(body, this.copyId).subscribe(todo => {
+        this.message.success('Updated Successfully!!!');
+        this.isVisible2 = false;
+        this.getTodos()
+      })
+    }
   }
 
-  handleCancel(): void {
-    this.isVisible = false;
+  handleCancel(flag): void {
+    if (flag == 'view-cancel') {
+      this.isVisible = false
+    } else if ('edit-cancel') {
+      this.isVisible2 = false
+    }
   }
 
   // delete todo

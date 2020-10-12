@@ -5,16 +5,16 @@
             Add</button>
         <div class="row">
             <div class="col-md-4 card-todo" *ngFor="let todo of getAllTodos">
-                <nz-card class="mb-5" [nzBordered]="true" nzTitle="{{todo.Name | titlecase}}">
+                <nz-card class="mb-5" [nzBordered]="true" nzTitle="{{todo.Name}}">
                     <p>Email: {{todo.Email}} </p>
                     <p>Phone: {{todo.Phone}} </p>
 
                     <div class="float-right">
-                        <button class="mb-3 mr-2" nz-button nzType="dashed" (click)="showModal(todo._id)">
+                        <button class="mb-3 mr-2" nz-button nzType="dashed" (click)="showModal(todo._id, 'view-state')">
                             <i nz-icon [nzType]="'eye'"></i>
                             <span>View</span>
                         </button>
-                        <button class="mb-3 mr-2" nz-button nzType="dashed">
+                        <button class="mb-3 mr-2" nz-button nzType="dashed" (click)="showModal(todo._id, 'edit-state')">
                             <i nz-icon [nzType]="'edit'"></i>
                             Edit</button>
                         <button class="mb-3" nz-button nzType="dashed" (click)="deleteConfirm(todo._id)" nzDanger>
@@ -26,8 +26,8 @@
         </div>
     </div>
 
-    <nz-modal [(nzVisible)]="isVisible" nzTitle="Name: {{oneTodo?.Name | titlecase}}" (nzOnCancel)="handleCancel()"
-        (nzOnOk)="handleOk()">
+    <nz-modal [(nzVisible)]="isVisible" nzTitle="Name: {{oneTodo?.Name}}" (nzOnCancel)="handleCancel('view-cancel')"
+        (nzOnOk)="handleOk('view-ok')">
         <span>
             <b>Email: </b>
             <p>{{oneTodo?.Email}}</p>
@@ -35,6 +35,35 @@
             <b>Phone: </b>
             <p>{{oneTodo?.Phone}}</p>
         </span>
+    </nz-modal>
+
+    <nz-modal [(nzVisible)]="isVisible2" nzTitle="Edit" (nzOnCancel)="handleCancel('edit-cancel')"
+        (nzOnOk)="handleOk('edit-ok')">
+
+        <form nz-form>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="name">Name</nz-form-label>
+                <nz-form-control [nzSpan]="14">
+                    <input nz-input name="name" [(ngModel)]="UpdateName" type="text" placeholder="Enter Name"
+                        value="{{oneTodo?.Name}}">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="email">E-mail</nz-form-label>
+                <nz-form-control [nzSpan]="14">
+                    <input nz-input name="email" [(ngModel)]="UpdateEmail" type="email" placeholder="Your Email"
+                        value="{{oneTodo?.Email}}">
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzFor="number">Phone</nz-form-label>
+                <nz-form-control [nzSpan]="14">
+                    <input nz-input name="phone" [(ngModel)]="UpdatePhone" type="number" placeholder="Your Phone"
+                        value="{{oneTodo?.Phone}}">
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+
     </nz-modal>
 
     <!-- <div style="padding:30px;" class="container">
