@@ -84,31 +84,26 @@ exports.update_TodoData = (req, res) => {
         Email: req.body.Email,
         Phone: req.body.Phone,
     }
-    todoSchema.findOne({ Email: updateTodo.Email, Phone: updateTodo.Phone }).then(result => {
-        if (result) {
-            todoSchema.findOneAndUpdate({ _id: TodoId }, updateTodo, { new: true })
-                .then(updateTodo => {
-                    if (updateTodo) {
-                        res.status(200).send({
-                            message: "Todo Updated Successfully",
-                            updatedTodo: updateTodo
-                        });
-                    } else if (!updateTodo) {
-                        res.status(404).json({
-                            message: "Todo not found by given ID"
-                        })
-                    }
+    todoSchema.findOneAndUpdate({ _id: TodoId }, updateTodo, { new: true })
+        .then(updatedValue => {
+            if (updatedValue) {
+                res.status(200).json({
+                    message: "Todo Updated Successfully",
+                    updatedTodo: updatedValue
                 })
-                .catch(err => {
-                    if (err) {
-                        res.status(404).json({
-                            message: err.message
-                        })
-                    }
+            } else if (!updatedValue) {
+                res.status(404).json({
+                    message: "Todo not found by given ID"
                 })
-        }
-    })
-
+            }
+        })
+        .catch(err => {
+            if (err) {
+                res.status(404).json({
+                    message: err.message
+                })
+            }
+        })
 }
 
 // delete todo by todo id
