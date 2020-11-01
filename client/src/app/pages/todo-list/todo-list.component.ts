@@ -70,9 +70,9 @@ export class TodoListComponent implements OnInit {
     }
     else if (flag == 'edit-ok') {
       let body = {
-        Name: this.UpdateName,
-        Email: this.UpdateEmail,
-        Phone: this.UpdatePhone,
+        Name: this.UpdateName || this.oneTodo.Name,
+        Email: this.UpdateEmail || this.oneTodo.Email,
+        Phone: this.UpdatePhone || this.oneTodo.Phone,
       }
       this._api.editTodo(body, this.copyId).subscribe(todo => {
         this.message.success('Updated Successfully!!!');
